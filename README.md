@@ -54,3 +54,5 @@ If the CSV sits at the repo root next to `app/`, Root Directory = `app` still wo
 ## Data
 
 Uses `ai-layoffs-with-workforce-numbers.csv` (cleaned register from the notebook).
+
+Website link: https://ai-layoffs-register.onrender.com/
