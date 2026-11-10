@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Layoffs Register · 2023–2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            ink: { 50:'#f8fafc', 100:'#f1f5f9', 200:'#e2e8f0', 300:'#cbd5e1', 400:'#94a3b8', 500:'#64748b', 600:'#475569', 700:'#334155', 800:'#1e293b', 900:'#0f172a' },
+            accent: { DEFAULT:'#0f766e', soft:'#ccfbf1', mid:'#14b8a6' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; }
+    .card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+    }
+    .stat-value { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+    .filter-chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.6rem; border-radius: 9999px;
+      font-size: 0.75rem; font-weight: 500;
+      background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0;
+      cursor: pointer; transition: all 0.15s ease;
+    }
+    .filter-chip:hover { background: #e2e8f0; }
+    .filter-chip.active {
+      background: #ccfbf1; color: #115e59; border-color: #5eead4;
+    }
+    .section-label {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #64748b;
+    }
+    .plot-box { min-height: 260px; }
+    select.multi {
+      width: 100%; min-height: 2.4rem;
+      border: 1px solid #e2e8f0; border-radius: 8px;
+      padding: 0.35rem 0.5rem; font-size: 0.85rem;
+      background: #fff; color: #1e293b;
+    }
+    select.multi:focus { outline: none; border-color: #14b8a6; box-shadow: 0 0 0 3px rgba(20,184,166,0.15); }
+    .table-wrap { overflow-x: auto; }
+    table.data { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    table.data th {
+      text-align: left; padding: 0.55rem 0.75rem;
+      font-weight: 600; color: #64748b; border-bottom: 1px solid #e2e8f0;
+      white-space: nowrap; background: #f8fafc;
+    }
+    table.data td {
+      padding: 0.55rem 0.75rem; border-bottom: 1px solid #f1f5f9;
+      color: #334155; vertical-align: top;
+    }
+    table.data tr:hover td { background: #f8fafc; }
+    .badge {
+      display: inline-block; padding: 0.12rem 0.45rem; border-radius: 6px;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.01em;
+    }
+    .badge-explicit { background: #ccfbf1; color: #115e59; }
+    .badge-mixed { background: #e0f2fe; color: #075985; }
+    .badge-blamed { background: #ffedd5; color: #9a3412; }
+    .badge-tier1 { background: #e0e7ff; color: #3730a3; }
+    .badge-tier2 { background: #f1f5f9; color: #475569; }
+    .badge-tier3 { background: #fef3c7; color: #92400e; }
+    .spinner {
+      width: 28px; height: 28px; border: 3px solid #e2e8f0;
+      border-top-color: #0f766e; border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .sidebar-scroll { max-height: calc(100vh - 7rem); overflow-y: auto; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-ink-50 text-ink-800 antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-ink-200">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-9 h-9 rounded-lg bg-accent flex items-center justify-center text-white font-bold text-sm shrink-0">AI</div>
+        <div class="min-w-0">
+          <h1 class="text-base sm:text-lg font-semibold text-ink-900 leading-tight truncate">AI Layoffs Register</h1>
+          <p class="text-xs text-ink-500 hidden sm:block">Every row sourced · 2023–2026 · Interactive insights</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-xs text-ink-500">
+        <span id="filter-summary" class="hidden md:inline">All filters open</span>
+        <button id="btn-reset" class="px-3 py-1.5 rounded-lg border border-ink-200 bg-white hover:bg-ink-50 text-ink-700 font-medium transition">
+          Reset filters
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-5">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+      <!-- Filters sidebar -->
+      <aside class="lg:col-span-3 xl:col-span-2">
+        <div class="card p-4 sticky top-[4.25rem]">
+          <div class="flex items-center justify-between mb-3">
+            <span class="section-label">Filters</span>
+            <span id="loading-indicator" class="hidden"><span class="spinner inline-block"></span></span>
+          </div>
+          <div class="sidebar-scroll space-y-4 pr-1">
+
+            <div>
+              <label class="block text-xs font-medium text-ink-600 mb-1">Year</label>
+              <select id="f-year" class="multi" multiple size="4">
+                {% for y in filters.years %}
+                <option value="{{ y }}">{{ y }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-ink-600 mb-1">Sector</label>
+              <select id="f-sector" class="multi" multiple size="6">
+                {% for s in filters.sectors %}
+                <option value="{{ s }}">{{ s }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-ink-600 mb-1">Country</label>
+              <select id="f-country" class="multi" multiple size="6">
+                {% for c in filters.countries %}
+                <option value="{{ c }}">{{ c }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-ink-600 mb-1">Attribution</label>
+              <select id="f-attribution" class="multi" multiple size="3">
+                {% for a in filters.attributions %}
+                <option value="{{ a }}">{{ a }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-ink-600 mb-1">Evidence tier</label>
+              <select id="f-evidence" class="multi" multiple size="3">
+                {% for e in filters.evidence_tiers %}
+                <option value="{{ e }}">{{ e }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-ink-600 mb-1">Execution</label>
+              <select id="f-execution" class="multi" multiple size="4">
+                {% for e in filters.executions %}
+                <option value="{{ e }}">{{ e }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-ink-600 mb-1">Kind</label>
+              <select id="f-kind" class="multi" multiple size="2">
+                {% for k in filters.kinds %}
+                <option value="{{ k }}">{{ k }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <p class="text-[11px] text-ink-400 leading-relaxed pt-1">
+              Hold <kbd class="px-1 py-0.5 bg-ink-100 rounded text-ink-600">Ctrl</kbd> / <kbd class="px-1 py-0.5 bg-ink-100 rounded text-ink-600">⌘</kbd> to multi-select. Empty = all values.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main class="lg:col-span-9 xl:col-span-10 space-y-5">
+
+        <!-- KPI strip -->
+        <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
+          <div class="card p-4">
+            <p class="section-label mb-1">Events</p>
+            <p id="kpi-events" class="stat-value text-2xl font-semibold text-ink-900">{{ stats.events }}</p>
+          </div>
+          <div class="card p-4">
+            <p class="section-label mb-1">Companies</p>
+            <p id="kpi-companies" class="stat-value text-2xl font-semibold text-ink-900">{{ stats.companies }}</p>
+          </div>
+          <div class="card p-4">
+            <p class="section-label mb-1">Roles counted</p>
+            <p id="kpi-roles" class="stat-value text-2xl font-semibold text-accent">{{ "{:,}".format(stats.roles_counted) }}</p>
+          </div>
+          <div class="card p-4">
+            <p class="section-label mb-1">Not counted</p>
+            <p id="kpi-not-counted" class="stat-value text-2xl font-semibold text-ink-700">{{ "{:,}".format(stats.roles_reported_not_counted) }}</p>
+          </div>
+          <div class="card p-4">
+            <p class="section-label mb-1">Explicit AI</p>
+            <p id="kpi-explicit" class="stat-value text-2xl font-semibold text-ink-900">{{ stats.explicit_pct }}%</p>
+          </div>
+          <div class="card p-4">
+            <p class="section-label mb-1">Date span</p>
+            <p id="kpi-dates" class="stat-value text-sm font-medium text-ink-700 leading-snug mt-1">{{ stats.date_min }} → {{ stats.date_max }}</p>
+          </div>
+        </section>
+
+        <!-- 1. Overall -->
+        <section>
+          <h2 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-accent/10 text-accent text-xs flex items-center justify-center font-bold">1</span>
+            Overall layoff statistics
+          </h2>
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div class="card p-3"><div id="chart-timeline" class="plot-box"></div></div>
+            <div class="card p-3"><div id="chart-top-companies" class="plot-box"></div></div>
+          </div>
+        </section>
+
+        <!-- 2. Industry -->
+        <section>
+          <h2 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">2</span>
+            Industry analysis
+          </h2>
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div class="card p-3"><div id="chart-sector-activity" class="plot-box"></div></div>
+            <div class="card p-3"><div id="chart-sector-roles" class="plot-box"></div></div>
+          </div>
+        </section>
+
+        <!-- 3. Geography -->
+        <section>
+          <h2 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-cyan-100 text-cyan-800 text-xs flex items-center justify-center font-bold">3</span>
+            Geographical analysis
+          </h2>
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div class="card p-3"><div id="chart-country" class="plot-box"></div></div>
+            <div class="card p-3"><div id="chart-attribution-sector" class="plot-box"></div></div>
+          </div>
+        </section>
+
+        <!-- 4. Attribution -->
+        <section>
+          <h2 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-violet-100 text-violet-800 text-xs flex items-center justify-center font-bold">4</span>
+            AI attribution analysis
+          </h2>
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div class="card p-3"><div id="chart-attribution" class="plot-box"></div></div>
+            <div class="card p-3"><div id="chart-job-families" class="plot-box"></div></div>
+          </div>
+        </section>
+
+        <!-- 5. Workforce impact -->
+        <section>
+          <h2 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-rose-100 text-rose-800 text-xs flex items-center justify-center font-bold">5</span>
+            Workforce impact
+          </h2>
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div class="card p-3"><div id="chart-workforce-pct" class="plot-box"></div></div>
+            <div class="card p-3"><div id="chart-execution" class="plot-box"></div></div>
+          </div>
+        </section>
+
+        <!-- 6. Evidence quality -->
+        <section>
+          <h2 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-indigo-100 text-indigo-800 text-xs flex items-center justify-center font-bold">6</span>
+            Evidence quality
+          </h2>
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div class="card p-3"><div id="chart-evidence-tier" class="plot-box"></div></div>
+            <div class="card p-3"><div id="chart-evidence-attr" class="plot-box"></div></div>
+          </div>
+        </section>
+
+        <!-- Events table -->
+        <section>
+          <h2 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-ink-100 text-ink-700 text-xs flex items-center justify-center font-bold">☰</span>
+            Recent events <span class="text-ink-400 font-normal">(filtered, latest 25)</span>
+          </h2>
+          <div class="card table-wrap">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Company</th>
+                  <th>Sector</th>
+                  <th>Country</th>
+                  <th>Roles</th>
+                  <th>Attribution</th>
+                  <th>Evidence</th>
+                  <th>Claim</th>
+                </tr>
+              </thead>
+              <tbody id="events-body">
+                <tr><td colspan="8" class="text-center text-ink-400 py-8">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <footer class="pt-2 pb-8 text-center text-xs text-ink-400">
+          Data from the <a href="https://ailayoffs.org" class="text-accent hover:underline" target="_blank" rel="noopener">AI Layoffs Register</a>
+          · Every row is source-cited · Methodology tiers 1–3 · Built for exploration, not press tallies
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const CHART_IDS = {
+      timeline: 'chart-timeline',
+      top_companies: 'chart-top-companies',
+      sector_activity: 'chart-sector-activity',
+      sector_roles: 'chart-sector-roles',
+      country: 'chart-country',
+      attribution: 'chart-attribution',
+      attribution_sector: 'chart-attribution-sector',
+      workforce_pct: 'chart-workforce-pct',
+      execution: 'chart-execution',
+      evidence_tier: 'chart-evidence-tier',
+      evidence_attr: 'chart-evidence-attr',
+      job_families: 'chart-job-families',
+    };
+
+    const FILTER_IDS = {
+      year: 'f-year',
+      sector: 'f-sector',
+      country: 'f-country',
+      attribution: 'f-attribution',
+      evidence_tier: 'f-evidence',
+      execution: 'f-execution',
+      kind: 'f-kind',
+    };
+
+    function selectedValues(id) {
+      const el = document.getElementById(id);
+      return Array.from(el.selectedOptions).map(o => o.value);
+    }
+
+    function buildQuery() {
+      const params = new URLSearchParams();
+      const map = {
+        year: selectedValues('f-year'),
+        sector: selectedValues('f-sector'),
+        country: selectedValues('f-country'),
+        attribution: selectedValues('f-attribution'),
+        evidence_tier: selectedValues('f-evidence'),
+        execution: selectedValues('f-execution'),
+        kind: selectedValues('f-kind'),
+      };
+      let active = 0;
+      for (const [key, vals] of Object.entries(map)) {
+        vals.forEach(v => params.append(key, v));
+        if (vals.length) active++;
+      }
+      document.getElementById('filter-summary').textContent =
+        active ? `${active} filter group${active > 1 ? 's' : ''} active` : 'All filters open';
+      return params.toString();
+    }
+
+    function fmtNum(n) {
+      if (n == null) return '—';
+      return Number(n).toLocaleString();
+    }
+
+    function attrBadge(a) {
+      const cls = a === 'explicit' ? 'badge-explicit' : a === 'mixed' ? 'badge-mixed' : 'badge-blamed';
+      return `<span class="badge ${cls}">${a}</span>`;
+    }
+
+    function tierBadge(t) {
+      const cls = t === 'Tier 1' ? 'badge-tier1' : t === 'Tier 2' ? 'badge-tier2' : 'badge-tier3';
+      return `<span class="badge ${cls}">${t}</span>`;
+    }
+
+    function renderEvents(events) {
+      const body = document.getElementById('events-body');
+      if (!events.length) {
+        body.innerHTML = '<tr><td colspan="8" class="text-center text-ink-400 py-8">No events match the current filters.</td></tr>';
+        return;
+      }
+      body.innerHTML = events.map(e => `
+        <tr>
+          <td class="whitespace-nowrap">${e.date}</td>
+          <td class="font-medium text-ink-800">
+            ${e.source_url
+              ? `<a href="${e.source_url}" target="_blank" rel="noopener" class="hover:text-accent hover:underline">${e.company}</a>`
+              : e.company}
+          </td>
+          <td>${e.sector || '—'}</td>
+          <td>${e.country || '—'}</td>
+          <td class="tabular-nums">${e.roles_counted != null ? fmtNum(e.roles_counted) : '—'}</td>
+          <td>${attrBadge(e.attribution)}</td>
+          <td>${tierBadge(e.evidence_tier)}</td>
+          <td class="text-ink-500 max-w-xs truncate" title="${(e.claim || '').replace(/"/g, '&quot;')}">${e.claim || '—'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function updateKPIs(stats) {
+      document.getElementById('kpi-events').textContent = fmtNum(stats.events);
+      document.getElementById('kpi-companies').textContent = fmtNum(stats.companies);
+      document.getElementById('kpi-roles').textContent = fmtNum(stats.roles_counted);
+      document.getElementById('kpi-not-counted').textContent = fmtNum(stats.roles_reported_not_counted);
+      document.getElementById('kpi-explicit').textContent = stats.explicit_pct + '%';
+      document.getElementById('kpi-dates').textContent = `${stats.date_min} → ${stats.date_max}`;
+    }
+
+    const plotConfig = { responsive: true, displayModeBar: false };
+
+    async function refresh() {
+      const loader = document.getElementById('loading-indicator');
+      loader.classList.remove('hidden');
+      try {
+        const qs = buildQuery();
+        const res = await fetch('/api/insights' + (qs ? '?' + qs : ''));
+        const data = await res.json();
+        updateKPIs(data.stats);
+        for (const [key, elId] of Object.entries(CHART_IDS)) {
+          const fig = JSON.parse(data.charts[key]);
+          Plotly.react(elId, fig.data, fig.layout, plotConfig);
+        }
+        renderEvents(data.events);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        loader.classList.add('hidden');
+      }
+    }
+
+    // Wire filters
+    Object.values(FILTER_IDS).forEach(id => {
+      document.getElementById(id).addEventListener('change', refresh);
+    });
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      Object.values(FILTER_IDS).forEach(id => {
+        const el = document.getElementById(id);
+        Array.from(el.options).forEach(o => { o.selected = false; });
+      });
+      refresh();
+    });
+
+    // Initial load
+    refresh();
+  </script>
+</body>
+</html>
