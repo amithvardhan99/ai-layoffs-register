@@ -25,7 +25,7 @@ import json
 # ---------------------------------------------------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent
-DATA_PATH = BASE_DIR.parent / "ai-layoffs-with-workforce-numbers.csv"
+DATA_PATH = BASE_DIR / "ai-layoffs-with-workforce-numbers.csv"
 
 app = FastAPI(
     title="AI Layoffs Register",
