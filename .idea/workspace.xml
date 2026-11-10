@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4eb19d13-1886-4ee4-a88a-4b05a6002a64" name="Changes" comment="" />
+    <list default="true" id="4eb19d13-1886-4ee4-a88a-4b05a6002a64" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,61 +22,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.6691184127660104" />
-      <entry key="MS500" value="3.042072920534195" />
-      <entry key="S2" value="3.711022491673266" />
-      <entry key="S5" value="3.8799610430514093" />
-      <entry key="S10" value="4.009146618207517" />
-      <entry key="S30" value="6.705137533428689" />
-      <entry key="S60" value="10.796514007396375" />
-      <entry key="M2" value="14.76066377770676" />
-      <entry key="M5" value="19.20385782582235" />
-      <entry key="M10" value="26.761294581296813" />
-      <entry key="M15" value="34.8521980006753" />
-      <entry key="M30" value="52.15522355360799" />
-      <entry key="H1" value="67.61949159606448" />
-      <entry key="H2" value="78.09389911121191" />
-      <entry key="H4" value="84.20885565423127" />
-      <entry key="D1" value="89.81796547972276" />
-      <entry key="W1" value="90.8298647430424" />
+      <entry key="MS100" value="1.3498364234560856" />
+      <entry key="MS500" value="4.070722170895834" />
+      <entry key="S2" value="12.233119851831724" />
+      <entry key="S5" value="21.557083248292024" />
+      <entry key="S10" value="27.57799337960051" />
+      <entry key="S30" value="35.328412214268496" />
+      <entry key="S60" value="42.75543511266566" />
+      <entry key="M2" value="53.40235509604318" />
+      <entry key="M5" value="67.28610853565074" />
+      <entry key="M10" value="79.09846942212666" />
+      <entry key="M15" value="88.707251497358" />
+      <entry key="M30" value="108.00970991992794" />
+      <entry key="H1" value="125.06969300235572" />
+      <entry key="H2" value="136.6571697415035" />
+      <entry key="H4" value="143.44317158290363" />
+      <entry key="D1" value="149.68310775257277" />
+      <entry key="W1" value="150.81041252772772" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
       <entry key="S2" value="0.0" />
-      <entry key="S5" value="3.348970270251352E-143" />
-      <entry key="S10" value="5.787028832009873E-72" />
-      <entry key="S30" value="1.795361393187472E-24" />
-      <entry key="S60" value="1.3399109646493196E-12" />
-      <entry key="M2" value="1.157545232226076E-6" />
-      <entry key="M5" value="0.004220998406525585" />
-      <entry key="M10" value="0.06496921121982002" />
-      <entry key="M15" value="0.16161130210627028" />
-      <entry key="M30" value="0.40200908211913633" />
-      <entry key="H1" value="0.6340418614879743" />
-      <entry key="H2" value="0.7962674560020485" />
-      <entry key="H4" value="0.8923381959784343" />
-      <entry key="D1" value="0.9811940678138112" />
-      <entry key="W1" value="0.9972915299038118" />
+      <entry key="S5" value="2.1702638105605313E-152" />
+      <entry key="S10" value="1.4731815266831596E-76" />
+      <entry key="S30" value="5.281436810874494E-26" />
+      <entry key="S60" value="2.298137683184907E-13" />
+      <entry key="M2" value="4.793889530626366E-7" />
+      <entry key="M5" value="0.0029667107739846012" />
+      <entry key="M10" value="0.0544675203583255" />
+      <entry key="M15" value="0.14368951192592408" />
+      <entry key="M30" value="0.37906399449950934" />
+      <entry key="H1" value="0.6156817314972963" />
+      <entry key="H2" value="0.7846538928070742" />
+      <entry key="H4" value="0.8858069162109036" />
+      <entry key="D1" value="0.979993460849513" />
+      <entry key="W1" value="0.9971171092559841" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.6213428542129364" />
-      <entry key="MS500" value="3.023343863923101" />
-      <entry key="S2" value="3.7052502581754867" />
-      <entry key="S5" value="3.877543013455829" />
-      <entry key="S10" value="4.007893650296869" />
-      <entry key="S30" value="6.704401305991752" />
-      <entry key="S60" value="10.795904027152778" />
-      <entry key="M2" value="14.760241096518923" />
-      <entry key="M5" value="19.207708876028704" />
-      <entry key="M10" value="26.825259803532564" />
-      <entry key="M15" value="35.01232136525558" />
-      <entry key="M30" value="52.55548310175355" />
-      <entry key="H1" value="68.25217423029667" />
-      <entry key="H2" value="78.88931742329312" />
-      <entry key="H4" value="85.10071903195404" />
-      <entry key="D1" value="90.79907266003868" />
-      <entry key="W1" value="91.82714365975909" />
+      <entry key="MS100" value="1.3067513158864401" />
+      <entry key="MS500" value="3.822527338369248" />
+      <entry key="S2" value="12.01736899371439" />
+      <entry key="S5" value="21.434992742369122" />
+      <entry key="S10" value="27.507670833804337" />
+      <entry key="S30" value="35.30021059249899" />
+      <entry key="S60" value="42.73635605734632" />
+      <entry key="M2" value="53.38892102977726" />
+      <entry key="M5" value="67.28178137552943" />
+      <entry key="M10" value="79.14817852421481" />
+      <entry key="M15" value="88.84690762980405" />
+      <entry key="M30" value="108.38571649029691" />
+      <entry key="H1" value="125.68333729725282" />
+      <entry key="H2" value="137.44062459387987" />
+      <entry key="H4" value="144.32832513207114" />
+      <entry key="D1" value="150.6629839713887" />
+      <entry key="W1" value="151.8075126714173" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -254,46 +257,6 @@
       <option name="docutils_open_in_browser" value="false" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Autodetect">
-      <module name="ai-layoffs-register" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="DEBUG_JUST_MY_CODE" value="false" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <module name="ai-layoffs-register" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="DEBUG_JUST_MY_CODE" value="false" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method v="2" />
-    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -312,6 +275,8 @@
       <updated>1794306261693</updated>
       <workItem from="1794306262857" duration="99000" />
       <workItem from="1794306387325" duration="2551000" />
+      <workItem from="1794309051044" duration="521000" />
+      <workItem from="1794309587355" duration="308000" />
     </task>
     <servers />
   </component>

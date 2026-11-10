@@ -25,7 +25,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Restrained professional styling
+# Professional light theme styling — high contrast for senior analytics audiences
 st.markdown(
     """
     <style>
@@ -35,70 +35,142 @@ st.markdown(
         font-family: Inter, system-ui, -apple-system, sans-serif;
     }
 
+    /* Force readable text on main surface and sidebar */
+    .stApp, [data-testid="stAppViewContainer"] {
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+    }
+
     .block-container {
-        padding-top: 1.25rem;
-        padding-bottom: 2rem;
-        max-width: 1280px;
+        padding-top: 1.4rem;
+        padding-bottom: 2.5rem;
+        max-width: 1320px;
     }
 
     /* Sidebar */
     section[data-testid="stSidebar"] {
-        background: #f8fafc;
-        border-right: 1px solid #e2e8f0;
+        background: #ffffff !important;
+        border-right: 1px solid #e2e8f0 !important;
     }
     section[data-testid="stSidebar"] .block-container {
         padding-top: 1.5rem;
     }
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] label,
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] span {
+        color: #0f172a !important;
+    }
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
+        color: #0f172a !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+    section[data-testid="stSidebar"] .stCaption,
+    section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+        color: #64748b !important;
+    }
+
+    /* Multiselect / widget labels */
+    label[data-testid="stWidgetLabel"] p,
+    [data-testid="stWidgetLabel"] {
+        color: #334155 !important;
+        font-weight: 600 !important;
+        font-size: 0.82rem !important;
+    }
 
     /* KPI cards */
     div[data-testid="stMetric"] {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
         border-radius: 10px;
-        padding: 0.85rem 1rem;
-        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        padding: 0.9rem 1rem 0.75rem 1rem;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
     }
-    div[data-testid="stMetric"] label {
+    div[data-testid="stMetric"] label,
+    div[data-testid="stMetric"] [data-testid="stMetricLabel"] {
         color: #64748b !important;
-        font-size: 0.72rem !important;
+        font-size: 0.7rem !important;
         font-weight: 600 !important;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
     }
     div[data-testid="stMetric"] [data-testid="stMetricValue"] {
-        color: #0f172a;
-        font-weight: 600;
-        font-size: 1.55rem;
-    }
-
-    h1, h2, h3 {
         color: #0f172a !important;
         font-weight: 600 !important;
+        font-size: 1rem !important;
+        line-height: 1.3 !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+    }
+    /* Allow date-span (and any long metric) to wrap inside the card */
+    div[data-testid="stMetric"] {
+        min-height: 4.4rem;
+    }
+    div[data-testid="stMetric"] [data-testid="stMetricValue"] > div {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        word-break: break-word;
+    }
+
+    /* Headings — always high contrast */
+    h1, h2, h3, h4 {
+        color: #0f172a !important;
+        font-weight: 650 !important;
         letter-spacing: -0.02em;
     }
-    h1 { font-size: 1.55rem !important; }
-    h2 { font-size: 1.1rem !important; margin-top: 0.5rem !important; }
-    h3 { font-size: 0.95rem !important; }
+    h1 {
+        font-size: 1.65rem !important;
+        margin-bottom: 0.15rem !important;
+    }
+    h2 {
+        font-size: 1.15rem !important;
+        margin-top: 1.15rem !important;
+        margin-bottom: 0.55rem !important;
+        padding-bottom: 0.35rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    h3 {
+        font-size: 1.02rem !important;
+        color: #0f172a !important;
+    }
 
-    .section-label {
-        font-size: 0.7rem;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: #64748b;
-        margin-bottom: 0.35rem;
+    /* Captions and secondary text */
+    [data-testid="stCaptionContainer"],
+    .stCaption {
+        color: #64748b !important;
+    }
+    p, span, li {
+        color: #334155;
     }
 
     hr {
-        margin: 0.75rem 0 1rem 0;
+        margin: 0.9rem 0 1.1rem 0;
         border: none;
         border-top: 1px solid #e2e8f0;
     }
 
-    /* Tables */
+    /* Dataframe */
     .stDataFrame {
         border: 1px solid #e2e8f0;
         border-radius: 8px;
+        background: #ffffff;
+    }
+
+    /* Buttons */
+    div[data-testid="stSidebar"] button {
+        background: #0f766e !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 600 !important;
+    }
+    div[data-testid="stSidebar"] button:hover {
+        background: #0d9488 !important;
+        color: #ffffff !important;
     }
 
     /* Hide Streamlit chrome */
@@ -107,12 +179,21 @@ st.markdown(
     header { visibility: hidden; }
 
     .footer-note {
-        color: #94a3b8;
-        font-size: 0.75rem;
+        color: #64748b !important;
+        font-size: 0.78rem;
         text-align: center;
-        margin-top: 1.5rem;
-        padding-top: 0.75rem;
+        margin-top: 1.75rem;
+        padding-top: 0.85rem;
         border-top: 1px solid #e2e8f0;
+    }
+
+    /* Plotly containers sit on white cards */
+    [data-testid="stPlotlyChart"] {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 0.35rem 0.25rem 0.15rem 0.25rem;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
     }
     </style>
     """,
@@ -543,8 +624,8 @@ def main() -> None:
 
     # Sidebar filters
     with st.sidebar:
-        st.markdown("### Filters")
-        st.caption("Leave empty to include all values.")
+        st.markdown("## Filters")
+        st.caption("Leave a filter empty to include all values in that dimension.")
 
         years = sorted(df["Year"].dropna().unique().astype(int).tolist())
         sectors = sorted(df["Sector"].dropna().unique().tolist())
@@ -578,8 +659,11 @@ def main() -> None:
 
     # Header
     st.markdown("# AI Layoffs Register")
-    st.caption(
+    st.markdown(
+        '<p style="color:#64748b;font-size:0.92rem;margin-top:-0.35rem;margin-bottom:1rem;">'
         "Every row sourced · 2023–2026 · Interactive insights from the AI-attributed workforce reductions register"
+        "</p>",
+        unsafe_allow_html=True,
     )
 
     # KPIs
@@ -589,12 +673,12 @@ def main() -> None:
     c3.metric("Roles counted", f"{stats['roles_counted']:,}")
     c4.metric("Not counted", f"{stats['roles_reported_not_counted']:,}")
     c5.metric("Explicit AI", f"{stats['explicit_pct']}%")
-    c6.metric("Date span", f"{stats['date_min'][:7]} → {stats['date_max'][:7]}")
+    c6.metric("Date span", f"{stats['date_min']} → {stats['date_max']}")
 
     st.markdown("---")
 
     # 1. Overall
-    st.markdown("### 1 · Overall layoff statistics")
+    st.markdown("## 1 · Overall layoff statistics")
     col_a, col_b = st.columns(2)
     with col_a:
         st.plotly_chart(chart_timeline(filtered), use_container_width=True, config={"displayModeBar": False})
@@ -602,7 +686,7 @@ def main() -> None:
         st.plotly_chart(chart_top_companies(filtered), use_container_width=True, config={"displayModeBar": False})
 
     # 2. Industry
-    st.markdown("### 2 · Industry analysis")
+    st.markdown("## 2 · Industry analysis")
     col_a, col_b = st.columns(2)
     with col_a:
         st.plotly_chart(chart_sector_activity(filtered), use_container_width=True, config={"displayModeBar": False})
@@ -610,7 +694,7 @@ def main() -> None:
         st.plotly_chart(chart_sector_roles(filtered), use_container_width=True, config={"displayModeBar": False})
 
     # 3. Geography
-    st.markdown("### 3 · Geographical analysis")
+    st.markdown("## 3 · Geographical analysis")
     col_a, col_b = st.columns(2)
     with col_a:
         st.plotly_chart(chart_country_activity(filtered), use_container_width=True, config={"displayModeBar": False})
@@ -618,7 +702,7 @@ def main() -> None:
         st.plotly_chart(chart_attribution_by_sector(filtered), use_container_width=True, config={"displayModeBar": False})
 
     # 4. Attribution
-    st.markdown("### 4 · AI attribution analysis")
+    st.markdown("## 4 · AI attribution analysis")
     col_a, col_b = st.columns(2)
     with col_a:
         st.plotly_chart(chart_attribution(filtered), use_container_width=True, config={"displayModeBar": False})
@@ -626,7 +710,7 @@ def main() -> None:
         st.plotly_chart(chart_job_families(filtered), use_container_width=True, config={"displayModeBar": False})
 
     # 5. Workforce impact
-    st.markdown("### 5 · Workforce impact")
+    st.markdown("## 5 · Workforce impact")
     col_a, col_b = st.columns(2)
     with col_a:
         st.plotly_chart(chart_workforce_pct(filtered), use_container_width=True, config={"displayModeBar": False})
@@ -634,7 +718,7 @@ def main() -> None:
         st.plotly_chart(chart_execution(filtered), use_container_width=True, config={"displayModeBar": False})
 
     # 6. Evidence quality
-    st.markdown("### 6 · Evidence quality")
+    st.markdown("## 6 · Evidence quality")
     col_a, col_b = st.columns(2)
     with col_a:
         st.plotly_chart(chart_evidence_tier(filtered), use_container_width=True, config={"displayModeBar": False})
@@ -642,7 +726,7 @@ def main() -> None:
         st.plotly_chart(chart_evidence_vs_attribution(filtered), use_container_width=True, config={"displayModeBar": False})
 
     # Events table
-    st.markdown("### Recent events")
+    st.markdown("## Recent events")
     st.caption("Latest 25 matching rows · click Source URL where available")
     table = (
         filtered.sort_values("Date", ascending=False)
